@@ -3,12 +3,17 @@
   "displayName": "Custom Commands",
   "description": "Write custom commands to run using Ctrl + Shift + P.",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angus-mcritchie/custom-commands"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
   ],
+  "publisher": "angus-mcritchie",
   "activationEvents": [
     "onCommand:custom-commands.run"
   ],
