@@ -6,13 +6,6 @@ import * as vscode from 'vscode';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "custom-commands" is now active!');
-	vscode.window.showInformationMessage('Activating Custom Commands 😀');
-
-
-
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -31,10 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 				const command = commands.find((command: Command) => command.name === selectedName);
 
 				if (command) {
-					vscode.window.showInformationMessage(`Running ${command.command}...`);
-
-					// run the selected command in the terminal
-					const terminal = vscode.window.createTerminal('Custom Commands: ' + command.name);
+					const terminal = vscode.window.createTerminal(command.name);
 					terminal.show();
 					terminal.sendText(command.command);
 				}
@@ -45,8 +35,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {
-	// Display a message box to the user
-	vscode.window.showInformationMessage('Deactivating Custom Commands 🥲');
-
-}
+export function deactivate() { }
