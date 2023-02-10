@@ -1,32 +1,30 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	handleStartup();
+	registerCustomCommands(context);
+}
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
+export function deactivate() {
+	handleShutdown();
+}
+
+function handleStartup() {
+	console.log('handleStartup', getCommands().filter((command: Command) => command.runOnStartup));
+
+	getCommands()
+		.filter((command: Command) => command.runOnStartup)
+		.forEach(execute);
+}
+
+function registerCustomCommands(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('custom-commands.run', () => {
-
-		type Command = {
-			name: string;
-			command: string;
-		}
-
-		const config = vscode.workspace.getConfiguration('customCommands');
-		const commands = config.get('commands') as Command[];
-
-		vscode.window.showQuickPick(commands.map((command: Command) => command.name))
+		vscode.window.showQuickPick(getCommands().map((command: Command) => command.name))
 			.then((selectedName) => {
-				const command = commands.find((command: Command) => command.name === selectedName);
+				const command = getCommands().find((command: Command) => command.name === selectedName);
 
 				if (command) {
-					const terminal = vscode.window.createTerminal(command.name);
-					terminal.show();
-					terminal.sendText(command.command);
+					execute(command);
 				}
 			});
 	});
@@ -34,5 +32,30 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() { }
+function handleShutdown() {
+	console.log('handleShutdown', getCommands());
+
+	getCommands()
+		.filter((command: Command) => command.runOnShutdown)
+		.forEach(execute);
+}
+
+function getCommands(): Command[] {
+	return vscode.workspace.getConfiguration('customCommands').get('commands') || [];
+}
+
+function execute(command: Command) {
+	console.log('execute', command);
+
+	const terminal = vscode.window.createTerminal(command.name);
+
+	terminal.show();
+	terminal.sendText(command.command);
+}
+
+type Command = {
+	name: string;
+	command: string;
+	runOnStartup?: boolean;
+	runOnShutdown?: boolean;
+}

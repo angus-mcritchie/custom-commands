@@ -2,7 +2,7 @@
   "name": "custom-commands",
   "displayName": "Custom Commands",
   "description": "Write custom commands to run using Ctrl + Shift + P.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/angus-mcritchie/custom-commands"
@@ -16,7 +16,7 @@
   ],
   "publisher": "angus-mcritchie",
   "activationEvents": [
-    "onCommand:custom-commands.run"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -42,13 +42,23 @@
               "command": {
                 "type": "string",
                 "description": "The actual command to run"
+              },
+              "runOnStartup": {
+                "type": "boolean",
+                "description": "Should we run this command on startup?"
+              },
+              "runOnShutdown": {
+                "type": "boolean",
+                "description": "Should we run this command on shutdown?"
               }
             }
           },
           "default": [
             {
               "name": "Hello World",
-              "command": "echo Hello World"
+              "command": "echo Hello World",
+              "runOnStartup": false,
+              "runOnShutdown": false
             }
           ],
           "scope": "window",
