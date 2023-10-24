@@ -15,4 +15,7 @@ Great for project level commands, like starting docker from a specific docker-co
 Added command.runOnStartup and command.runOnShutdown options
 Added usage example to readme
 
+### 0.0.4
+Added VS Code variables to command arguments (e.g. ${selectedText}) so you now write a command like `ping ${selectedText}` - thanks @vince1024 for the idea/request!
+
 **Enjoy!**

@@ -20,12 +20,22 @@ function handleStartup() {
 function registerCustomCommands(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('custom-commands.run', () => {
 		vscode.window.showQuickPick(getCommands().map((command: Command) => command.name))
-			.then((selectedName) => {
+			.then((selectedName: string | undefined) => {
 				const command = getCommands().find((command: Command) => command.name === selectedName);
 
-				if (command) {
-					execute(command);
+				if (!command) {
+					return;
 				}
+
+				// allow vs code variables such as ${file}, ${selectedText} etc
+				const replacements: { [key: string]: string | undefined } = {
+					'${selectedText}': vscode.window.activeTextEditor?.document.getText(vscode.window.activeTextEditor.selection),
+					'${file}': vscode.window.activeTextEditor?.document.fileName
+				}
+
+				command.command = Object.keys(replacements).reduce((acc, key) => acc.replace(key, replacements[key] || ''), command.command);
+
+				execute(command);
 			});
 	});
 
