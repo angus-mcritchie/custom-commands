@@ -2,7 +2,7 @@
   "name": "custom-commands",
   "displayName": "Custom Commands",
   "description": "Write custom commands to run using Ctrl + Shift + P.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/angus-mcritchie/custom-commands"

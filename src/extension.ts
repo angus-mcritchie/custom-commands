@@ -27,10 +27,12 @@ function registerCustomCommands(context: vscode.ExtensionContext) {
 					return;
 				}
 
-				// allow vs code variables such as ${file}, ${selectedText} etc
+				// allow vs code variables such as ${file}, ${selectedText} ${folder}, ${workspaceFolder} etc.
 				const replacements: { [key: string]: string | undefined } = {
 					'${selectedText}': vscode.window.activeTextEditor?.document.getText(vscode.window.activeTextEditor.selection),
-					'${file}': vscode.window.activeTextEditor?.document.fileName
+					'${file}': vscode.window.activeTextEditor?.document.fileName,
+					'${folder}': vscode.window.activeTextEditor?.document.fileName.split('/').slice(0, -1).join('/'),
+					'${workspaceFolder}': vscode.workspace.workspaceFolders?.[0].uri.fsPath || '',
 				}
 
 				command.command = Object.keys(replacements).reduce((acc, key) => acc.replace(key, replacements[key] || ''), command.command);

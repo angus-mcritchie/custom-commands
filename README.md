@@ -18,4 +18,9 @@ Added usage example to readme
 ### 0.0.4
 Added VS Code variables to command arguments (e.g. ${selectedText}) so you now write a command like `ping ${selectedText}` - thanks @vince1024 for the idea/request!
 
+### 0.0.5
+Added new variables to use in command arguments - thanks @yiqingpeng for the request!
+- ${fileDirname}
+- ${workspaceFolder}
+
 **Enjoy!**
