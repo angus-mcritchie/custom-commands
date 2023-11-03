@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import path = require('path');
 
 export function activate(context: vscode.ExtensionContext) {
 	handleStartup();
@@ -31,7 +32,7 @@ function registerCustomCommands(context: vscode.ExtensionContext) {
 				const replacements: { [key: string]: string | undefined } = {
 					'${selectedText}': vscode.window.activeTextEditor?.document.getText(vscode.window.activeTextEditor.selection),
 					'${file}': vscode.window.activeTextEditor?.document.fileName,
-					'${folder}': vscode.window.activeTextEditor?.document.fileName.split('/').slice(0, -1).join('/'),
+					'${folder}': vscode.window.activeTextEditor?.document.fileName.split(path.sep).slice(0, -1).join(path.sep),
 					'${workspaceFolder}': vscode.workspace.workspaceFolders?.[0].uri.fsPath || '',
 				}
 

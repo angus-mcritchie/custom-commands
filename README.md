@@ -23,4 +23,7 @@ Added new variables to use in command arguments - thanks @yiqingpeng for the req
 - ${fileDirname}
 - ${workspaceFolder}
 
+### 0.0.6
+Fix directory separator bug for Windows for {folder} and ${workspaceFolder} variables.
+
 **Enjoy!**
